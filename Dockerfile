@@ -14,7 +14,7 @@ RUN apt-get update && \
   cmake \
   unzip \
   git \
-  libcurl4-openssl-dev
+  libcurl4-openssl-dev wget curl git net-tools libglib2.0-* glibc-source tar jq libpcap-dev build-essential apt-transport-https ca-certificates curl software-properties-common gnupg2 postgresql postgresql-contrib unzip libssl-dev git libevent-dev pkg-config gconf-service libasound2 libatk1.0-0 libc6 libcairo2 libcups2 libdbus-1-3 libexpat1 libfontconfig1 libgcc1 libgconf-2-4 libgdk-pixbuf2.0-0 libglib2.0-0 libgtk-3-0 libnspr4 libpango-1.0-0 libpangocairo-1.0-0 libstdc++6 libx11-6 libx11-xcb1 libxcb1 libxcomposite1 libxcursor1 libxdamage1 libxext6 libxfixes3 libxi6 libxrandr2 libxrender1 libxss1 libxtst6 ca-certificates fonts-liberation libappindicator1 libnss3 lsb-release xdg-utils chromium-browser
 
 # Copy function code
 RUN mkdir -p ${FUNCTION_DIR}
@@ -63,9 +63,9 @@ RUN unzip lithops_lambda.zip \
 
 
 # install go
-RUN wget https://dl.google.com/go/go1.17.5.linux-amd64.tar.gz
-RUN tar -xvf go1.17.5.linux-amd64.tar.gz
-RUN rm go1.17.5.linux-amd64.tar.gz
+RUN wget https://go.dev/dl/go1.19.3.linux-amd64.tar.gz
+RUN tar -xvf go1.19.3.linux-amd64.tar.gz
+RUN rm go1.19.3.linux-amd64.tar.gz
 RUN mv go /usr/local
 
 # ENV for Go
@@ -73,6 +73,10 @@ ENV GOROOT="/usr/local/go"
 ENV PATH="${PATH}:${GOROOT}/bin"
 ENV PATH="${PATH}:${GOPATH}/bin"
 ENV GOPATH=$HOME/go
+
+RUN GO111MODULE=on go install github.com/jaeles-project/gospider@latest
+
+RUN go install -v github.com/projectdiscovery/subfinder/v2/cmd/subfinder@latest
 
 RUN go install github.com/d3mondev/puredns/v2@latest
 
