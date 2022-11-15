@@ -171,10 +171,9 @@ if __name__ == '__main__':
             fexec = FunctionExecutor(runtime=runtime)
             # fixed map function https://github.com/lithops-cloud/lithops/blob/master/docs/api_futures.md
             fexec.map(execute_command,filekeys, extra_args=(command,nosplit_s3,))
-
             output = fexec.get_result()
-        except:
-            printerr(" [ERROR] Could not execute the runtime.")
+        except Exception as e:
+            printerr(" [ERROR] Could not execute the runtime, err: " + str(e))
             exit()
     else:
         printerr(" [ERROR] Input file not found")
