@@ -172,7 +172,9 @@ if __name__ == '__main__':
             # fixed map function https://github.com/lithops-cloud/lithops/blob/master/docs/api_futures.md
             fexec.map(execute_command,filekeys, extra_args=(command,nosplit_s3,))
             output = fexec.get_result()
-        except Exception as e:
+        except Exception as e: 
+            # improved exception handling by printing out the error message so we
+            # have to keep looking at the logs to see the errors
             printerr(" [ERROR] Could not execute the runtime, err: " + str(e))
             exit()
     else:
