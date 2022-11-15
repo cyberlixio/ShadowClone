@@ -94,7 +94,7 @@ RUN GO111MODULE=on go install github.com/jaeles-project/jaeles@latest
 
 RUN /go/bin/jaeles config init
 
-#RUN git clone https://github.com/projectdiscovery/nuclei-templates.git /function/nuclei-templates
+RUN git clone https://github.com/projectdiscovery/nuclei-templates.git /nuclei-templates
 
 RUN git clone https://github.com/0xjbb/static-nmap.git /static-nmap && chmod +x /static-nmap/nmap
 
