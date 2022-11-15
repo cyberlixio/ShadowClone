@@ -84,28 +84,40 @@ RUN go install -v github.com/projectdiscovery/httpx/cmd/httpx@latest
 
 RUN go install github.com/hahwul/dalfox/v2@latest
 
-RUN go install -v github.com/projectdiscovery/nuclei/v2/cmd/nuclei@latest
+COPY nuclei .
+#RUN go install -v github.com/projectdiscovery/nuclei/v2/cmd/nuclei@latest
 
 RUN go install -v github.com/ffuf/ffuf@latest
 
 RUN go install -v github.com/tomnomnom/fff@latest
 
-RUN git clone https://github.com/projectdiscovery/nuclei-templates.git /nuclei-templates
+RUN GO111MODULE=on go install github.com/jaeles-project/jaeles@latest
+
+RUN /go/bin/jaeles config init
+
+#RUN git clone https://github.com/projectdiscovery/nuclei-templates.git /function/nuclei-templates
 
 RUN git clone https://github.com/0xjbb/static-nmap.git /static-nmap && chmod +x /static-nmap/nmap
 
-RUN git clone https://github.com/robertdavidgraham/masscan /masscan && cd /masscan && make 
+RUN git clone https://github.com/robertdavidgraham/masscan /masscan && cd /masscan && make
 
-# RUN curl -LO https://github.com/assetnote/kiterunner/releases/download/v1.0.2/kiterunner_1.0.2_linux_amd64.tar.gz && tar xvf kiterunner_1.0.2_linux_amd64.tar.gz 
+RUN curl -LO https://github.com/assetnote/kiterunner/releases/download/v1.0.2/kiterunner_1.0.2_linux_amd64.tar.gz && tar xvf kiterunner_1.0.2_linux_amd64.tar.gz
 
 RUN  curl -o /function/resolvers.txt -LO https://raw.githubusercontent.com/janmasarik/resolvers/master/resolvers.txt
 
 COPY ./massdns /usr/local/bin/massdns
 
+# fix some issues with nuclei configs
+#RUN /go/bin/nuclei -ut -ud /function/
+#RUN mkdir -p ./.config/nuclei/
+#RUN touch ./.config/nuclei/.templates-config.json
+#RUN touch ./.config/nuclei/report-config.yaml
+
 # install massdns
-# RUN git clone https://github.com/blechschmidt/massdns.git
-# RUN cd massdns && make && cp bin/massdns /usr/local/bin/massdns
+RUN git clone https://github.com/blechschmidt/massdns.git
+RUN cd massdns && make && cp bin/massdns /usr/local/bin/massdns
 
 
 ENTRYPOINT [ "/usr/local/bin/python", "-m", "awslambdaric" ]
 CMD [ "handler.entry_point.lambda_handler" ]
+
