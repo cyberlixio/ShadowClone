@@ -170,7 +170,7 @@ if __name__ == '__main__':
             # change runtime memory if required
             fexec = FunctionExecutor(runtime=runtime)
             # fixed map function https://github.com/lithops-cloud/lithops/blob/master/docs/api_futures.md
-            # the command argument in extra_args would always return None, therefore our lambda function would not execute
+            # the command argument in extra_args would sometimes return None, therefore our lambda function would not execute
             # due to exceptions in the replace line in the execute_command() function. If fixed this by using a tuple instead of a hash
             fexec.map(execute_command,filekeys, extra_args=(command,nosplit_s3,))
             output = fexec.get_result()
