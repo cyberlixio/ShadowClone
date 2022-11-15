@@ -85,7 +85,6 @@ RUN go install -v github.com/projectdiscovery/httpx/cmd/httpx@latest
 RUN go install github.com/hahwul/dalfox/v2@latest
 
 COPY nuclei .
-#RUN go install -v github.com/projectdiscovery/nuclei/v2/cmd/nuclei@latest
 
 RUN go install -v github.com/ffuf/ffuf@latest
 
@@ -106,12 +105,6 @@ RUN curl -LO https://github.com/assetnote/kiterunner/releases/download/v1.0.2/ki
 RUN  curl -o /function/resolvers.txt -LO https://raw.githubusercontent.com/janmasarik/resolvers/master/resolvers.txt
 
 COPY ./massdns /usr/local/bin/massdns
-
-# fix some issues with nuclei configs
-#RUN /go/bin/nuclei -ut -ud /function/
-#RUN mkdir -p ./.config/nuclei/
-#RUN touch ./.config/nuclei/.templates-config.json
-#RUN touch ./.config/nuclei/report-config.yaml
 
 # install massdns
 RUN git clone https://github.com/blechschmidt/massdns.git
