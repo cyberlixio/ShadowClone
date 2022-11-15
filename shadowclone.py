@@ -167,8 +167,11 @@ if __name__ == '__main__':
 
         # object_chunksize = 1*1024**2
         try:
-            fexec = FunctionExecutor(runtime=runtime) # change runtime memory if reuired
-            fexec.map(execute_command,filekeys, extra_args={command, nosplit_s3})
+            # change runtime memory if required
+            fexec = FunctionExecutor(runtime=runtime)
+            # fixed map function https://github.com/lithops-cloud/lithops/blob/master/docs/api_futures.md
+            fexec.map(execute_command,filekeys, extra_args=(command,nosplit_s3,))
+
             output = fexec.get_result()
         except:
             printerr(" [ERROR] Could not execute the runtime.")
