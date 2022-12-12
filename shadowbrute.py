@@ -68,7 +68,7 @@ if __name__ == '__main__':
 
     try:
         fexec = FunctionExecutor(runtime=config.LITHOPS_RUNTIME) # change runtime
-        fexec.map(dns_bruteforce,iterdata, obj_chunk_size=object_chunksize, extra_args={domain})
+        fexec.map(dns_bruteforce,iterdata, obj_chunk_size=object_chunksize, extra_args=(domain,))
         output = fexec.get_result()
     except:
         sys.stderr.write(datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S,%f")[:-3] + " [ERROR] Could not execute the runtime.\n")
