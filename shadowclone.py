@@ -107,9 +107,10 @@ def execute_command(obj, command, nosplit):
         cmd = cmd.replace('{NOSPLIT}', file_name)
     try:
         results = run(cmd)
+        return results.stdout
     except:
         print("Error in running the command:"+ command)
-    return results.stdout
+    return []
 
 
 if __name__ == '__main__':
